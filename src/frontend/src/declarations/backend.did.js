@@ -8,18 +8,19 @@
 
 import { IDL } from '@icp-sdk/core/candid';
 
-export const Inquiry = IDL.Record({
+export const Time = IDL.Int;
+export const Appointment = IDL.Record({
   'name' : IDL.Text,
   'preferredTime' : IDL.Text,
-  'timestamp' : IDL.Int,
+  'timestamp' : Time,
   'phone' : IDL.Text,
   'condition' : IDL.Text,
 });
 
 export const idlService = IDL.Service({
-  'getAllInquiries' : IDL.Func([], [IDL.Vec(Inquiry)], ['query']),
-  'submitInquiry' : IDL.Func(
-      [IDL.Text, IDL.Text, IDL.Text, IDL.Text, IDL.Int],
+  'getAllAppointments' : IDL.Func([], [IDL.Vec(Appointment)], ['query']),
+  'submitAppointment' : IDL.Func(
+      [IDL.Text, IDL.Text, IDL.Text, IDL.Text, Time],
       [],
       [],
     ),
@@ -28,18 +29,19 @@ export const idlService = IDL.Service({
 export const idlInitArgs = [];
 
 export const idlFactory = ({ IDL }) => {
-  const Inquiry = IDL.Record({
+  const Time = IDL.Int;
+  const Appointment = IDL.Record({
     'name' : IDL.Text,
     'preferredTime' : IDL.Text,
-    'timestamp' : IDL.Int,
+    'timestamp' : Time,
     'phone' : IDL.Text,
     'condition' : IDL.Text,
   });
   
   return IDL.Service({
-    'getAllInquiries' : IDL.Func([], [IDL.Vec(Inquiry)], ['query']),
-    'submitInquiry' : IDL.Func(
-        [IDL.Text, IDL.Text, IDL.Text, IDL.Text, IDL.Int],
+    'getAllAppointments' : IDL.Func([], [IDL.Vec(Appointment)], ['query']),
+    'submitAppointment' : IDL.Func(
+        [IDL.Text, IDL.Text, IDL.Text, IDL.Text, Time],
         [],
         [],
       ),

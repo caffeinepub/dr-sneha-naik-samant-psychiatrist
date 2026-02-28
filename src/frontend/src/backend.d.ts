@@ -7,14 +7,15 @@ export interface None {
     __kind__: "None";
 }
 export type Option<T> = Some<T> | None;
-export interface Inquiry {
+export interface Appointment {
     name: string;
     preferredTime: string;
-    timestamp: bigint;
+    timestamp: Time;
     phone: string;
     condition: string;
 }
+export type Time = bigint;
 export interface backendInterface {
-    getAllInquiries(): Promise<Array<Inquiry>>;
-    submitInquiry(name: string, phone: string, condition: string, preferredTime: string, timestamp: bigint): Promise<void>;
+    getAllAppointments(): Promise<Array<Appointment>>;
+    submitAppointment(name: string, phone: string, condition: string, preferredTime: string, timestamp: Time): Promise<void>;
 }

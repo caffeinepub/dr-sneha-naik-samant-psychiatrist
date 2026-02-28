@@ -89,44 +89,45 @@ export class ExternalBlob {
         return this;
     }
 }
-export interface Inquiry {
+export interface Appointment {
     name: string;
     preferredTime: string;
-    timestamp: bigint;
+    timestamp: Time;
     phone: string;
     condition: string;
 }
+export type Time = bigint;
 export interface backendInterface {
-    getAllInquiries(): Promise<Array<Inquiry>>;
-    submitInquiry(name: string, phone: string, condition: string, preferredTime: string, timestamp: bigint): Promise<void>;
+    getAllAppointments(): Promise<Array<Appointment>>;
+    submitAppointment(name: string, phone: string, condition: string, preferredTime: string, timestamp: Time): Promise<void>;
 }
 export class Backend implements backendInterface {
     constructor(private actor: ActorSubclass<_SERVICE>, private _uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, private _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, private processError?: (error: unknown) => never){}
-    async getAllInquiries(): Promise<Array<Inquiry>> {
+    async getAllAppointments(): Promise<Array<Appointment>> {
         if (this.processError) {
             try {
-                const result = await this.actor.getAllInquiries();
+                const result = await this.actor.getAllAppointments();
                 return result;
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.getAllInquiries();
+            const result = await this.actor.getAllAppointments();
             return result;
         }
     }
-    async submitInquiry(arg0: string, arg1: string, arg2: string, arg3: string, arg4: bigint): Promise<void> {
+    async submitAppointment(arg0: string, arg1: string, arg2: string, arg3: string, arg4: Time): Promise<void> {
         if (this.processError) {
             try {
-                const result = await this.actor.submitInquiry(arg0, arg1, arg2, arg3, arg4);
+                const result = await this.actor.submitAppointment(arg0, arg1, arg2, arg3, arg4);
                 return result;
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.submitInquiry(arg0, arg1, arg2, arg3, arg4);
+            const result = await this.actor.submitAppointment(arg0, arg1, arg2, arg3, arg4);
             return result;
         }
     }

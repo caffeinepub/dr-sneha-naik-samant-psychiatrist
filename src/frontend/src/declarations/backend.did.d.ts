@@ -10,17 +10,18 @@ import type { ActorMethod } from '@icp-sdk/core/agent';
 import type { IDL } from '@icp-sdk/core/candid';
 import type { Principal } from '@icp-sdk/core/principal';
 
-export interface Inquiry {
+export interface Appointment {
   'name' : string,
   'preferredTime' : string,
-  'timestamp' : bigint,
+  'timestamp' : Time,
   'phone' : string,
   'condition' : string,
 }
+export type Time = bigint;
 export interface _SERVICE {
-  'getAllInquiries' : ActorMethod<[], Array<Inquiry>>,
-  'submitInquiry' : ActorMethod<
-    [string, string, string, string, bigint],
+  'getAllAppointments' : ActorMethod<[], Array<Appointment>>,
+  'submitAppointment' : ActorMethod<
+    [string, string, string, string, Time],
     undefined
   >,
 }

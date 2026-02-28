@@ -1,49 +1,41 @@
-import Runtime "mo:core/Runtime";
-import Principal "mo:core/Principal";
-import Order "mo:core/Order";
-import Iter "mo:core/Iter";
-import Array "mo:core/Array";
 import Map "mo:core/Map";
+import Array "mo:core/Array";
+import Runtime "mo:core/Runtime";
+import Iter "mo:core/Iter";
+
+import Time "mo:core/Time";
+import Principal "mo:core/Principal";
+
 
 actor {
-  public type Inquiry = {
+  public type Appointment = {
     name : Text;
     phone : Text;
     condition : Text;
     preferredTime : Text;
-    timestamp : Int;
+    timestamp : Time.Time;
   };
 
-  module Inquiry {
-    public func compareByTimestamp(inquiry1 : Inquiry, inquiry2 : Inquiry) : Order.Order {
-      Int.compare(inquiry1.timestamp, inquiry2.timestamp);
-    };
-  };
-
-  let inquiries = Map.empty<Int, Inquiry>();
-  var nextId = 0;
+  let appointments = Map.empty<Time.Time, Appointment>();
 
   func checkAdmin(caller : Principal) {
-    if (not caller.isAnonymous()) {
-      return;
-    };
-    Runtime.trap("Access denied: Anonymous user is not allowed admin rights.");
+    if (not caller.isAnonymous()) { return };
+    Runtime.trap("Access denied: Anonymous user is not allowed admin rights. ");
   };
 
-  public shared ({ caller }) func submitInquiry(name : Text, phone : Text, condition : Text, preferredTime : Text, timestamp : Int) : async () {
-    let inquiry : Inquiry = {
+  public shared ({ caller }) func submitAppointment(name : Text, phone : Text, condition : Text, preferredTime : Text, timestamp : Time.Time) : async () {
+    let appointment : Appointment = {
       name;
       phone;
       condition;
       preferredTime;
       timestamp;
     };
-    inquiries.add(nextId, inquiry);
-    nextId += 1;
+    appointments.add(timestamp, appointment);
   };
 
-  public query ({ caller }) func getAllInquiries() : async [Inquiry] {
+  public query ({ caller }) func getAllAppointments() : async [Appointment] {
     checkAdmin(caller);
-    inquiries.values().toArray().sort(Inquiry.compareByTimestamp);
+    appointments.values().toArray();
   };
 };
